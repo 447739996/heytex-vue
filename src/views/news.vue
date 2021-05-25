@@ -4,21 +4,22 @@
       <van-cell title="新闻列表" value="当前位置：HRYTEX/新闻列表"  :border="false" />
     </van-cell-group>
     <div class="content">
-      <van-grid column-num="2">
+      <van-grid column-num="1">
         <van-grid-item v-for="(item,index) in newslist" :key="index" @click="todetail(item.rowguid)">
-          <h4>{{item.title}}</h4>
-          <p v-html="item.content"></p>
-          <p
-            class="time"
-          >{{item.operatetime.dayOfMonth}} {{item.operatetime.month}} {{item.operatetime.year}}</p>
+            <img :src="'http://10.167.0.12:7001/api/basic/accessoryinfo/image?rowguid=' +item.imgguid.split(',')[0]" alt class="newimg" />
+            <h5>{{item.title}}</h5>
+            <p class="subtitle">{{item.subtitle}}</p>
+            <!--          <div v-html="item.content"></div>-->
+            <p class="time">{{item.articletime?$util.datestampToDate(item.articletime):''}}</p>
         </van-grid-item>
       </van-grid>
     </div>
 
     <div class="mypglist">
       <van-button type="default" @click="changeup()" v-if="showupbtn">上一页</van-button>
+        <p>第{{page}}页 / 共 {{total}} 页</p>
       <van-button type="default" @click="changedown()">下一页</van-button>
-      <p>{{page}}页/共{{total}}页</p>
+
     </div>
 
      <div>
@@ -78,7 +79,7 @@ export default {
     },
     todetail(e){
              this.$router.push("/newsdetail?" + e);
- 
+
     }
   }
 };
@@ -89,5 +90,9 @@ export default {
   text-align: right;
   font-size: 0.5rem;
   color: rgb(180, 179, 179);
+}
+.newimg {
+    width: 100%;
+    /*height: 200px;*/
 }
 </style>

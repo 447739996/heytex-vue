@@ -1,16 +1,16 @@
 import request from "./request";
 
-const imgurl = '/apiproxy/basic/accessoryinfo/image?rowguid='
-const menuurl = '/apiproxy/manage/cataloginfo/tree?rowguid=top'
-const contacturl = '/apiproxy/manage/messageinfo/sumbit'
-const jobinfourl = '/apiproxy/manage/jobinfo/all'
-const searchurl = '/apiproxy//manage/cataloginfo/search?limit=10&page=1'
-const homenewsurl = '/apiproxy/manage/newsinfo/recommend?rowguid=1'
-const homegoodproducturl = '/apiproxy/manage/cataloginfo/excellent'
-const homearticleurl = '/apiproxy/manage/articleinfo/recommend?rowguid=1'
-const newsurl = '/apiproxy/manage/newsinfo/pagination?limit=10&page='
-const newsdetailurl = '/apiproxy/manage/newsinfo/rowguid?rowguid='
-const articleurl = '/apiproxy/manage/articleinfo/rowguid?rowguid='
+const imgurl = '/api/basic/accessoryinfo/image?rowguid='
+const menuurl = '/api/manage/cataloginfo/tree?rowguid=top'
+const contacturl = '/api/manage/messageinfo/sumbit'
+const jobinfourl = '/api/manage/jobinfo/all'
+const searchurl = '/api//manage/cataloginfo/search?limit=10&page=1'
+const homenewsurl = '/api/manage/newsinfo/recommend?rowguid=1'
+const homegoodproducturl = '/api/manage/cataloginfo/excellent'
+const homearticleurl = '/api/manage/articleinfo/recommend?rowguid=1'
+const newsurl = '/api/manage/newsinfo/pagination?limit=10&page='
+const newsdetailurl = '/api/manage/newsinfo/rowguid?rowguid='
+const articleurl = '/api/manage/articleinfo/rowguid?rowguid='
 
 
 
@@ -52,4 +52,11 @@ export function contactapi(e) {
 }
 export function jobinfoapi() {
     return request.get(jobinfourl)
+}
+
+export function homeRecommend() {
+    return request({
+        url: '/api/manage/cataloginfo/homerecommend',
+        method: 'get',
+    })
 }

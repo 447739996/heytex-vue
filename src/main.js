@@ -5,6 +5,7 @@ import 'vant/lib/button/style';
 import Button from 'vant/lib/button';
 import router from './router/index'
 import axios from 'axios'
+import util from './utils'
 
 
 
@@ -47,8 +48,8 @@ Vue.use(GridItem)
 Vue.use(Button)
 
 
-
-Vue.prototype.$axios = axios 
+Vue.prototype.$util = util
+Vue.prototype.$axios = axios
 Vue.use(VueRouter)
 Vue.config.productionTip = false
 

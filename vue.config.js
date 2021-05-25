@@ -8,14 +8,14 @@ module.exports = {
         hotOnly: false,
         proxy: { // 配置跨域
             '/api': {
-                target: 'http://10.167.0.12:7001/api', //请求接口域名 
+                target: 'http://10.167.0.12:7001/api', //请求接口域名
                 ws: true,
                 secure: false,
                 changOrigin: true, //是否允许跨越
                 pathRewrite: {
-                    '^/apiproxy': '',
+                    '^/api': '',
                 }
-            }
+            },
         },
         before: app => {}
     }

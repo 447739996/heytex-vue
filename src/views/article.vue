@@ -1,9 +1,9 @@
 <template>
-  <div>
+  <div style="width: 100%">
     <img :src="data.imgguid" alt style="width:90%;margin-top:50px" />
-    <div class="content">
+    <div class="fuwenben">
       <h3>{{data.title}}</h3>
-      <div v-html="data.content"></div>
+      <div class="fuwenben" v-html="data.content"></div>
     </div>
     <div>
       <van-divider contentPosition="center">推荐</van-divider>
@@ -56,5 +56,10 @@ export default {
 .listtitle,.listsubtitle,.listoperatetime{
 width: 100%;
 display: block;
+}
+.fuwenben{
+  width: 90%;
+  margin-left: 5%;
+  text-align: left;
 }
 </style>

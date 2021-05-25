@@ -14,7 +14,6 @@
             :key="item.id"
             @click="openpopup(index)"
           >
-            <!-- {{item.label}} -->
           </van-grid-item>
           <van-grid-item class="titleitem" text="集团" @click="nav('/location')" />
           <van-grid-item class="titleitem" @click="nav('/news')" text="新闻" />
@@ -24,8 +23,8 @@
         </van-grid>
       </CollapseItem>
     </Collapse>
-    <van-popup v-model="show" position="top">
-      <p class="childerntitle">子目录1</p>
+    <van-popup v-model="show" position="top" :style="{ width: '100%' }">
+      <p class="childerntitle">{{list1[index1].label}}</p>
       <van-grid style="margin:20px">
         <van-grid-item
           class="titleitem"
@@ -36,8 +35,8 @@
         ></van-grid-item>
       </van-grid>
     </van-popup>
-    <van-popup v-model="show1" position="top">
-      <p class="childerntitle">子目录2</p>
+    <van-popup v-model="show1" position="top" :style="{ width: '100%' }">
+      <p class="childerntitle">{{list1[index1].children[index].label}}</p>
       <van-grid style="margin:20px">
         <van-grid-item
           class="titleitem"
@@ -48,8 +47,8 @@
         ></van-grid-item>
       </van-grid>
     </van-popup>
-    <van-popup v-model="show2" position="top">
-      <p class="childerntitle">子目录3</p>
+    <van-popup v-model="show2" position="top" :style="{ width: '100%' }">
+      <p class="childerntitle">{{list2.length!=0&&list2[index].label?list2[index].label:""}}</p>
       <van-grid style="margin:20px">
         <van-grid-item
           class="titleitem"
@@ -87,7 +86,8 @@ export default {
       index11: 0,
       index1: 0,
       list2: [],
-      list3: []
+      list3: [],
+      catalogName:[],
     };
   },
   created() {
@@ -134,15 +134,15 @@ export default {
       this.list3 = this.list2[index].children;
       console.log(this.list3);
       console.log(this.list2[index]);
-      if (this.list2[index].articleguid == "") {
-        console.log("");
-      } else {
+      if (this.list2[index].articleguid == ""&&this.list2[index].children.length !=0) {
+        this.show2 = true;
+      } else if (this.list2[index].articleguid != ""&&this.list2[index].children.length !=0){
         this.$router.push("/article?" + this.list2[index].articleguid);
         this.show1 = false;
         this.show = false;
       }
 
-      this.show2 = true;
+
     },
     openpopup3(index) {
       console.log(index);

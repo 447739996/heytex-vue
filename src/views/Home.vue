@@ -40,16 +40,42 @@
           type="video/mp4"
         />
       </video>
-      <van-divider contentPosition="left" class="secondtitle">新闻</van-divider>
-      <van-grid column-num="2">
-        <van-grid-item v-for="(item,index) in newslist" :key="index">
-          <img :src="item.imgguid" alt class="newimg" />
-          <h4>{{item.title}}</h4>
-          <p class="subtitle">{{item.subtitle}}</p>
-          <div v-html="item.content"></div>
-          <p class="time">{{item.articletime}}</p>
-        </van-grid-item>
-      </van-grid>
+      <div v-if="articlelist&&articlelist.length!=0">
+        <van-divider contentPosition="left" class="secondtitle">文章</van-divider>
+        <van-grid column-num="1">
+          <van-grid-item v-for="(item,index) in articlelist" :key="index">
+            <img :src="item.imgguid" alt class="newimg" />
+            <h5>{{item.title}}</h5>
+            <p class="subtitle">{{item.subtitle}}</p>
+            <!--          <div v-html="item.content"></div>-->
+            <p class="time">{{item.articletime}}</p>
+          </van-grid-item>
+        </van-grid>
+      </div>
+      <div v-if="newslist&&newslist.length!=0">
+        <van-divider contentPosition="left" class="secondtitle">新闻</van-divider>
+        <van-grid column-num="1">
+          <van-grid-item v-for="(item,index) in newslist" :key="index">
+            <img :src="item.imgguid" alt class="newimg" />
+            <h5>{{item.title}}</h5>
+            <p class="subtitle">{{item.subtitle}}</p>
+            <!--          <div v-html="item.content"></div>-->
+            <p class="time">{{item.articletime}}</p>
+          </van-grid-item>
+        </van-grid>
+      </div>
+      <div v-if="joblist&&joblist.length!=0">
+        <van-divider contentPosition="left" class="secondtitle">招聘</van-divider>
+        <van-grid column-num="1">
+          <van-grid-item v-for="(item,index) in joblist" :key="index">
+<!--            <img :src="item.imgguid" alt class="newimg" />-->
+            <h5>{{item.name}}</h5>
+<!--            <p class="subtitle">{{item.subtitle}}</p>-->
+            <div class="fuwenben" v-html="item.content"></div>
+<!--            <p class="time">{{item.articletime}}</p>-->
+          </van-grid-item>
+        </van-grid>
+      </div>
       <!-- <van-divider contentPosition="center">文章推荐</van-divider>
       <van-row gutter="20" class="homearticlelist">
         <van-col span="8" v-for="(item,index) in homearticlelist" :key="index">
@@ -100,6 +126,7 @@
 
 <script>
 import { homenewsapi, homegoodproductapi, homearticleapi } from "@/api/api.js";
+import {homeRecommend} from "../api/api";
 // @ is an alias to /src
 export default {
   name: "Home",
@@ -108,6 +135,8 @@ export default {
     return {
       searchvalue: "",
       newslist: [],
+      articlelist: [],
+      joblist:[],
       goodproductlist: [],
       homearticlelist: []
     };
@@ -116,14 +145,13 @@ export default {
     homenewsapi().then(res => {
       console.log(res);
       this.newslist = res.data;
-      for (var i = 0; i <= this.newslist.length; i++) {
-        this.newslist[i].imgguid = this.newslist[i].imgguid.slice(
-          0,
-          this.newslist[i].imgguid.length - 1
-        );
-        this.newslist[i].imgguid =
-          "http://10.167.0.12:7001/api/basic/accessoryinfo/image?rowguid=" +
-          this.newslist[i].imgguid;
+      for (var i = 0; i < this.newslist.length; i++) {
+        if(this.newslist[i].imgguid&&this.newslist[i].imgguid!=""){
+          this.newslist[i].imgguid = this.newslist[i].imgguid.split(",")[0];
+          this.newslist[i].imgguid =
+                  "http://10.167.0.12:7001/api/basic/accessoryinfo/image?rowguid=" +
+                  this.newslist[i].imgguid;
+        }
       }
     });
     homegoodproductapi().then(res => {
@@ -134,8 +162,40 @@ export default {
       console.log(res);
       this.homearticlelist = res.data;
     });
+    this.homeRecommend();
   },
   methods: {
+    homeRecommend(){
+      homeRecommend().then(response => {
+        if(200==response.code){
+          this.newslist=[];
+          if(response.data.jobinfo){
+            let jobInfoData = response.data.jobinfo;
+            // jobInfoData.imgguid = jobInfoData.imgguid.split(",")[0];
+            // jobInfoData.imgguid =
+            //         "http://10.167.0.12:7001/api/basic/accessoryinfo/image?rowguid=" +
+            //         jobInfoData.imgguid;
+            this.joblist.push(jobInfoData)
+          }
+          if(response.data.newsinfo){
+            let newsInfoData = response.data.newsinfo;
+            newsInfoData.imgguid = newsInfoData.imgguid.split(",")[0];
+            newsInfoData.imgguid =
+                    "http://10.167.0.12:7001/api/basic/accessoryinfo/image?rowguid=" +
+                    newsInfoData.imgguid;
+            this.newslist.push(newsInfoData)
+          }
+          if(response.data.catalog){
+            let articleInfoData = response.data.catalog;
+            articleInfoData.imgguid = articleInfoData.imgguid.split(",")[0];
+            articleInfoData.imgguid =
+                    "http://10.167.0.12:7001/api/basic/accessoryinfo/image?rowguid=" +
+                    articleInfoData.imgguid;
+            this.articlelist.push(articleInfoData)
+          }
+        }
+      })
+    },
     search() {
       this.$router.push("/search?" + this.searchvalue);
     },
@@ -180,12 +240,14 @@ export default {
 }
 .subtitle {
   font-size: 0.7rem;
-  width: 100%;
   text-align: left;
+  width:100%;
+  word-wrap: break-word;
+  word-break: break-all;
 }
 .newimg {
-  width: 80%;
-  height: 150px;
+  width: 100%;
+  height: 200px;
 }
 .mainpoint{
   width: 80%;
@@ -196,5 +258,15 @@ export default {
   color: #7c7c7c;
   border-left: 10px solid #526e77 ;
   padding-left: 10px;
+}
+.fuwenben{
+  width: 90%;
+  margin-left: 5%;
+  text-align: left;
+}
+a {
+  text-decoration: none;
+  color: black;
+  /*此处是去掉a标签的下划线*/
 }
 </style>
