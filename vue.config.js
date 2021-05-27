@@ -13,7 +13,7 @@ module.exports = {
                 secure: false,
                 changOrigin: true, //是否允许跨越
                 pathRewrite: {
-                    '^/api': '',
+                    '^/apiheytex': '',
                 }
             },
         },

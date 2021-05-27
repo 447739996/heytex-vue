@@ -1,7 +1,7 @@
 <template>
   <div class="about">
     <van-cell-group>
-      <van-cell title="公司介绍" value="你的位置：HEYTEX/公司介绍" :border="false" />
+      <van-cell title="公司介绍" value="你的位置：HEYTEX/公司" :border="false" />
     </van-cell-group>
     <img src="../static/map.jpg" style="width:90%;marin-left:5%" alt />
 
@@ -235,5 +235,8 @@ export default {
   overflow: scroll;
   box-shadow: 0px 0px 10px 5px #526e77;
   border-radius: 10px;
+}
+.about{
+  padding-bottom: 20px;
 }
 </style>

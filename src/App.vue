@@ -1,13 +1,7 @@
 <template>
   <div id="app">
-    <!-- <div id="nav"> -->
-    <!-- <home></home> -->
-    <!-- <router-link to="/">Home</router-link> | -->
-    <!-- <router-link to="/about">About</router-link> -->
-    <!-- </div> -->
     <topnav></topnav>
-
-    <router-view />
+    <div class="main"> <router-view /></div>
     <bottom></bottom>
     <ball class="ball"></ball>
   </div>
@@ -26,12 +20,18 @@ export default {
 };
 </script>
 <style>
+.main{
+  width: 90%;
+  margin-left: 5%;
+  background-color: #fff;
+}
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+  background-color: rgb(185, 183, 183);
 }
 
 #nav {
